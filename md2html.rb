@@ -24,7 +24,9 @@ html = IO.popen(%w[/usr/local/bin/pandoc -f markdown_github -t html -s], 'r+') d
   io.read
 end
 
-html.gsub!(/<code[^>]*>/, '<code style="
+html.gsub!(%r{<style[^>]*>.*</style>}, '')
+
+html.gsub!(/<pre>\s*<code>/, '<pre><code style="
   background-color: rgb(248,248,248);
   background: rgb(248,248,255);
   border-radius: 3px;
@@ -35,6 +37,19 @@ html.gsub!(/<code[^>]*>/, '<code style="
   font-size: 9pt;
   margin: 0px 0.15em;
   padding: 0.5em;
+  white-space: pre-wrap;
+">')
+
+html.gsub!(/<code>/, '<code style="
+  background-color: rgb(248,248,248);
+  background: rgb(248,248,255);
+  border-radius: 2px;
+  border: 1px solid rgb(204,204,204);
+  color: rgb(51,51,51);
+  font-family: Consolas,Inconsolata,Courier,monospace;
+  font-size: 9pt;
+  margin: 0px 1px;
+  padding: 1px;
   white-space: pre-wrap;
 ">')
 
